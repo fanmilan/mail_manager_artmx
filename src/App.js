@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import {Page} from "./common/Page/Page";
+import './index.scss';
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {IdeaTable} from "./components/IdeaTable/IdeaTable";
+import {MailPage} from "./components/MailPage/MailPage";
+import {withData} from "./components/withData/withData";
+import {getMails} from "./api/mailAPI";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+    const MailPageWithData = withData(MailPage, getMails);
+    const IdeaPageWithData = withData(MailPage, getMails);
+
+    return (
+        <Router>
+            <Switch>
+                <Route path="/ideas">
+                    <Page title='Идеи'>
+                        <IdeaTable items={[]}/>
+                    </Page>
+                </Route>
+                <Route path="/">
+                    <MailPageWithData />
+                </Route>
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;
