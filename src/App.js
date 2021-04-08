@@ -1,25 +1,24 @@
-import {Page} from "./common/Page/Page";
+
 import './index.scss';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import {IdeaTable} from "./components/IdeaTable/IdeaTable";
+
 import {MailPage} from "./components/MailPage/MailPage";
+import {IdeaPage} from "./components/IdeaPage/IdeaPage";
 import {withData} from "./components/withData/withData";
-import {getMails} from "./api/mailAPI";
+import {getMails, createMail} from "./api/mailAPI";
+import {getIdeas, createIdea} from "./api/ideaAPI";
 
 
 function App() {
 
-
-    const MailPageWithData = withData(MailPage, getMails);
-    const IdeaPageWithData = withData(MailPage, getMails);
+    const MailPageWithData = withData(MailPage, getMails, createMail);
+    const IdeaPageWithData = withData(IdeaPage, getIdeas, createIdea);
 
     return (
         <Router>
             <Switch>
                 <Route path="/ideas">
-                    <Page title='Идеи'>
-                        <IdeaTable items={[]}/>
-                    </Page>
+                    <IdeaPageWithData />
                 </Route>
                 <Route path="/">
                     <MailPageWithData />
